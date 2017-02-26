@@ -4,13 +4,18 @@
 
 {% block content %}
 <div class="grid-100">
-  <ul class="minerals__container">
-  {% for mineral in minerals %}
-    <li class="minerals__item">
-      <a class="minerals__anchor" href="{% url 'minerals:detail' pk=mineral.pk %}">{{ mineral.name }}</a>
-    </li>
-  {% endfor %}
-  </ul>
+    {% if result %}
+        <h2>Here are your results for {{ query }}</h2>
+        <ul class="minerals__container">
+            {% for mineral in result %}
+                <li class="minerals__item">
+                    <a class="minerals__anchor" href="{% url 'minerals:detail' pk=mineral.pk %}">{{ mineral.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h2>Your search query {{ query }} returned no results.</h2>
+    {% endif %}
 </div>
 {% endblock %}
 
