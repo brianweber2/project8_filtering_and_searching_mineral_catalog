@@ -24,6 +24,7 @@ class Command(BaseCommand):
                 img_caption = mineral['image caption'],
                 category = mineral['category'],
                 formula = mineral['formula'],
+                group = mineral['group'],
                 strunz_classification = mineral['strunz classification'],
                 crystal_system = mineral['crystal system'],
                 unit_cell = mineral['unit cell'],

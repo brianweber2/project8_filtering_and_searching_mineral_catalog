@@ -12,6 +12,9 @@ import string
 # Constants
 letters = string.ascii_uppercase
 letter_start = letters[0]
+groups = ['Silicates', 'Oxides', 'Sulfates', 'Sulfides', 'Carbonates',
+          'Halides', 'Sulfosalts', 'Phosphates', 'Borates',
+          'Organic Minerals', 'Arsenates', 'Native Elements', 'Other']
 
 def mineral_list(request):
     """Returns a list of all minerals."""
@@ -26,7 +29,8 @@ def mineral_list(request):
             'minerals': minerals,
             'random_mineral': random_mineral,
             'letters': letters,
-            'active_letter': letter_start
+            'active_letter': letter_start,
+            'mineral_groups': groups
         }
     )
 
@@ -42,7 +46,8 @@ def mineral_detail(request, pk):
         {
             'mineral': mineral,
             'random_mineral': random_mineral,
-            'letters': letters
+            'letters': letters,
+            'mineral_groups': groups
         }
     )
 
@@ -59,15 +64,10 @@ def mineral_list_letter_filter(request, letter):
             'minerals': minerals,
             'random_mineral': random_mineral,
             'letters': letters,
-            'active_letter': letter
+            'active_letter': letter,
+            'mineral_groups': groups
         }
     )
-
-# def normalize_query(query_string, pattern = "\w+=\w+[+]\w+"):
-#     """Splits the query string in individual keywords."""
-#     import re
-#     result = re.findall(pattern, query_string)
-#     return result
 
 def mineral_search(request):
     """Returns a list of minerals that match the search query."""
@@ -86,7 +86,30 @@ def mineral_search(request):
             'query': query,
             'result': result,
             'random_mineral': random_mineral,
-            'letters': letters
+            'letters': letters,
+            'mineral_groups': groups
         }
     )
 
+def mineral_group_filter(request, group):
+    """Returns a list of all minerals in a specified group."""
+    if group == 'organic_minerals':
+        group = 'Organic Minerals'
+    elif group == 'native_elements':
+        group = 'Native Elements'
+
+    all_minerals = Mineral.objects.all()
+    random_mineral = random.choice(all_minerals)
+    minerals =all_minerals.filter(group__iexact=group)
+
+    return render(
+        request,
+        'minerals/mineral_group_filter.html',
+        {
+            'minerals': minerals,
+            'random_mineral': random_mineral,
+            'letters': letters,
+            'active_group': group,
+            'mineral_groups': groups
+        }
+    )

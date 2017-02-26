@@ -6,6 +6,6 @@ class MineralSearchForm(forms.Form):
         label='',
         max_length=100,
         widget=forms.TextInput(
-            attrs={'placeholder': 'Search minerals by name...'}
+            attrs={'placeholder': 'Search minerals by name'}
         )
     )

@@ -6,6 +6,7 @@ class Mineral(models.Model):
     img_filename = models.CharField(max_length=255)
     img_caption = models.TextField(max_length=255, blank=True, default='')
     category = models.CharField(max_length=255)
+    group = models.CharField(max_length=255, default='')
     formula = models.CharField(max_length=255)
     strunz_classification = models.CharField(max_length=255)
     crystal_system = models.CharField(max_length=255)

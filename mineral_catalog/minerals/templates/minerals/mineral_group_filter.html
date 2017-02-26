@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ block.super }} A magnificant catalog of minerals{% endblock %}
+
+{% block content %}
+<div class="grid-100">
+    {% if minerals %}
+        <h2>Here are your results for {{ active_group|title }}</h2>
+        <ul class="minerals__container">
+            {% for mineral in minerals %}
+                <li class="minerals__item">
+                    <a class="minerals__anchor" href="{% url 'minerals:detail' pk=mineral.pk %}">{{ mineral.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h2>No minerals in the {{ active_group|title }} group.</h2>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="minerals__random">
+    <div class="minerals__letters">
+        {% for letter in letters %}
+            {% if letter == active_letter %}
+                <a class="letters__anchor active" href="{% url 'minerals:letter_filter' letter=letter %}">{{ letter }}</a>
+            {% else %}
+                <a class="letters__anchor" href="{% url 'minerals:letter_filter' letter=letter %}">{{ letter }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <a class="minerals__anchor" href="{% url 'minerals:detail' pk=random_mineral.pk %}">Show random mineral</a>
+</div>
+{% endblock %}

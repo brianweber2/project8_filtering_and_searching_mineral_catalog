@@ -231,6 +231,19 @@ table, p, ul { margin-bottom: 2.5rem; }
   width: 80%;
 }
 
+#searchform {
+    margin: 0 auto;
+    width: 80%;
+}
+
+/* Filter by Group */
+.group_filter {
+  position: absolute;
+}
+
+.groups__item {
+  list-style: none;
+}
 
 
 

@@ -27,11 +27,38 @@
                 <p class="logo__text text-centered">They're not rocks!</p>
             </div>
 
-        <!-- Search form -->
-        <form id="searchform" method="get" action="{% url 'minerals:search' %}" accept-charset="utf-8">
-            {% search_form %}
-            <input type="submit" class="button" value="Search">
-        </form>
+            <!-- Search form -->
+            <form id="searchform" method="get" action="{% url 'minerals:search' %}" accept-charset="utf-8">
+                {% search_form %}
+                <input type="submit" class="button" value="Search">
+            </form>
+
+            <!-- Filter by group -->
+            <div class="group_filter" style="position: absolute; left: 100px;">
+                <h2>Filter by Group</h2>
+                <ul class="groups__container" style="list-style: none;">
+                {% for group in mineral_groups %}
+                    {% if group == active_group %}
+                        {% if group == 'Organic Minerals' %}
+                            <li class="groups__item active"><a href="{% url 'minerals:group_filter' group='organic_minerals' %}">{{ group|title }}</a></li>
+                        {% elif group == 'Native Elements' %}
+                            <li class="groups__item active"><a href="{% url 'minerals:group_filter' group='native_elements' %}">{{ group|title }}</a></li>
+                        {% else %}
+                            <li class="groups__item active"><a href="{% url 'minerals:group_filter' group=group %}">{{ group|title }}</a></li>
+                        {% endif %}
+                    {% else %}
+                        {% if group == 'Organic Minerals' %}
+                            <li class="groups__item"><a href="{% url 'minerals:group_filter' group='organic_minerals' %}">{{ group|title }}</a></li>
+                        {% elif group == 'Native Elements' %}
+                            <li class="groups__item"><a href="{% url 'minerals:group_filter' group='native_elements' %}">{{ group|title }}</a></li>
+                        {% else %}
+                            <li class="groups__item"><a href="{% url 'minerals:group_filter' group=group %}">{{ group|title }}</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                </ul>
+
+            </div>
 
         {% block content %}{% endblock %}
 
