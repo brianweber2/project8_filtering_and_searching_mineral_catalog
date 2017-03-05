@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.db.models import F, Q
 
 from .models import Mineral
 from . import forms
@@ -12,14 +13,15 @@ import string
 # Constants
 letters = string.ascii_uppercase
 letter_start = letters[0]
-groups = ['Silicates', 'Oxides', 'Sulfates', 'Sulfides', 'Carbonates',
-          'Halides', 'Sulfosalts', 'Phosphates', 'Borates',
-          'Organic Minerals', 'Arsenates', 'Native Elements', 'Other']
+groups = ['silicates', 'oxides', 'sulfates', 'sulfides', 'carbonates',
+          'halides', 'sulfosalts', 'phosphates', 'borates',
+          'Organic Minerals', 'asenates', 'Native Elements', 'other']
 
 def mineral_list(request):
     """Returns a list of all minerals."""
     # minerals = Mineral.objects.all()
-    minerals = Mineral.objects.filter(name__istartswith=letter_start)
+    minerals = Mineral.objects.filter(name__istartswith=letter_start).values(
+        'name', 'pk')
     random_mineral = random.choice(minerals)
 
     return render(
@@ -74,7 +76,7 @@ def mineral_search(request):
     result = []
     query = request.GET.get('q', None)
 
-    minerals = Mineral.objects.all()
+    minerals = Mineral.objects.all().values('name', 'pk')
     random_mineral = random.choice(minerals)
 
     if query:
@@ -98,9 +100,9 @@ def mineral_group_filter(request, group):
     elif group == 'native_elements':
         group = 'Native Elements'
 
-    all_minerals = Mineral.objects.all()
+    all_minerals = Mineral.objects.all().values('name', 'pk')
     random_mineral = random.choice(all_minerals)
-    minerals =all_minerals.filter(group__iexact=group)
+    minerals = all_minerals.filter(group__iexact=group)
 
     return render(
         request,

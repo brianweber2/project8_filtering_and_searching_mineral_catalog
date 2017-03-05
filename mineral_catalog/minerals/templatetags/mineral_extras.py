@@ -15,14 +15,14 @@ def search_form():
     form = MineralSearchForm()
     return form
 
-@register.simple_tag
-def random_mineral():
-    """Returns a random mineral from the database."""
-    minerals = Mineral.objects.all()
-    random_mineral = random.choice(minerals)
-    return random_mineral
+# @register.simple_tag
+# def random_mineral():
+#     """Returns a random mineral from the database."""
+#     minerals = Mineral.objects.all()
+#     random_mineral = random.choice(minerals)
+#     return random_mineral
 
-@register.simple_tag
-def mineral_groups():
-    """Return mineral groups."""
-    return groups
+# @register.simple_tag
+# def mineral_groups():
+#     """Return mineral groups."""
+#     return groups
